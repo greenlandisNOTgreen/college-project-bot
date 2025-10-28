@@ -4,17 +4,17 @@ from telebot.types import CallbackQuery as call
 import telebot, os, logging
 from dotenv import load_dotenv
 
-from classes.MessagesHandler import Main as m
+from classes.Messages import Main as m
 
-token1 = int(input('First part of the token >> '))
-token2 = input('Second part of the token >> ')
+load_dotenv()
+
+BOT_TOKEN = os.getenv('TKN')
 
 # i couldnt be bothered to make .env file
 # so i have to go along with this. I dont mind though.
-bot = telebot.TeleBot(token=f'{token1}:{token2}')
+bot = telebot.TeleBot(token=BOT_TOKEN)
 log = logging.Logger(__name__)
 
-Settings = s()
 Messages = m(bot)
 
 @bot.message_handler(commands=['start','settings'])

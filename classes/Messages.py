@@ -4,10 +4,7 @@ from telebot import TeleBot
 
 from classes.Language import Language
 
-# Initialize the shared language handler
 l = Language()
-
-
 class Main:
     def __init__(self, bot: TeleBot):
         self.instance = bot
