@@ -1,12 +1,10 @@
 # type: ignore
 from telebot import types as tl
 from telebot.types import CallbackQuery as call
-import telebot, os, time, logging
-
-
+import telebot, os, logging
+from dotenv import load_dotenv
 
 from classes.MessagesHandler import Main as m
-from classes.SettingsClass import Main as s
 
 token1 = int(input('First part of the token >> '))
 token2 = input('Second part of the token >> ')

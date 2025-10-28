@@ -11,33 +11,16 @@ l = Language()
 class Main:
     def __init__(self, bot: TeleBot):
         self.instance = bot
-        # No need to manage language files here — delegate to Language class
 
-    def startMessage(self, message: Message):
-        try:
-            lang_code = message.from_user.language_code
-
-            # Use the Language class method (note: correct method name!)
-            msg_data = l.getLanguageFromKey(langCode=lang_code, langKey="start_message")
-            if msg_data and "text" in msg_data:
-                welcome_text = msg_data["text"]
-            else:
-                welcome_text = """🎉 Welcome to My Bot!\n\nUse /help to see all available commands."""
-
-            self.instance.send_message(message.chat.id, welcome_text)
-            return True, None
-
-        except Exception as e:
-            return False, str(e)
+    def sendDefault(self, message:Message):
+        chatId = message.chat.id
 
     def settingsMessage(self, message: Message):
         try:
             lang_code = message.from_user.language_code
 
-            # Fetch the entire 'settings_message' dict
             settings_data = l.getLanguageFromKey(langCode=lang_code, langKey="settings_message")
             
-            # Fallback if key not found
             if not settings_data:
                 settings_data = {
                     "text": "⚙️ Settings",
