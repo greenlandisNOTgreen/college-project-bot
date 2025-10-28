@@ -1,0 +1,11 @@
+start_message:
+  text: |
+    Well hello there :)
+
+settings_message:
+  text: "⚙️ Choose your settings"
+  button_row1_left: "Language"
+  button_row1_right: "Notifications"
+  button_row2_center: "Advanced Settings"
+  button_row3_left: "Help"
+  button_row3_right: "About"
