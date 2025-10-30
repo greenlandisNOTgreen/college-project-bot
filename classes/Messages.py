@@ -1,55 +1,66 @@
 # type: ignore
 from telebot.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from telebot import TeleBot
+from typing import List, TypedDict
 
 from classes.Language import Language
+from classes.Settings import Main as Settings
+
+class ButtonInfo(TypedDict):
+    ButtonTextKey: str
+    ButtonCallback: str
 
 l = Language()
+s = Settings()
+
 class Main:
     def __init__(self, bot: TeleBot):
         self.instance = bot
 
-    def sendDefault(self, message:Message):
-        chatId = message.chat.id
+    def _ensure_first_message(self, message: Message) -> int:
+        user_id = message.from_user.id
+        user_settings = s.get_settings(user_id)
+        first_msg_id = user_settings.get("firstMessageId")
 
-    def settingsMessage(self, message: Message):
+        if not first_msg_id:
+            sent = self.instance.send_message(
+                chat_id=message.chat.id,
+                text="👀"
+            )
+            s.set_first_message_id(user_id, sent.id)
+            return sent.id
+        return first_msg_id
+
+    def _make_button(self, lang_code: str, text_key: str, callback: str) -> InlineKeyboardButton:
+        text = l.getLanguageFromKey(langCode=lang_code, langKey=text_key)
+        return InlineKeyboardButton(text, callback_data=callback)
+
+    def updateMessage( # major part of this function has been cleaned up by an AI
+        self,           # have I ensured that it still works correctly? Yes.
+        message: Message,# as much as I'd like to not use AI, its 4 in the morning.
+        updateTextWith: str,# i'd rather have 20 minutes more sleep than not use AI
+        updateMarkupWith: List[List[ButtonInfo]]
+    ) -> None:
+        user_id = message.from_user.id
+        chat_id = message.chat.id
+        lang_code = message.from_user.language_code or "en"
+
+        message_id = self._ensure_first_message(message)
+
+        markup = InlineKeyboardMarkup()
+        for button_row in updateMarkupWith:
+            buttons = [
+                self._make_button(lang_code, btn["ButtonTextKey"], btn["ButtonCallback"])
+                for btn in button_row
+            ]
+            markup.row(*buttons) 
+
         try:
-            lang_code = message.from_user.language_code
-
-            settings_data = l.getLanguageFromKey(langCode=lang_code, langKey="settings_message")
-            
-            if not settings_data:
-                settings_data = {
-                    "text": "⚙️ Settings",
-                    "button_row1_left": "Language",
-                    "button_row1_right": "Notifications",
-                    "button_row2_center": "Advanced Settings",
-                    "button_row3_left": "Help",
-                    "button_row3_right": "About"
-                }
-
-            markup = InlineKeyboardMarkup()
-
-            # Row 1
-            btn1 = InlineKeyboardButton(settings_data["button_row1_left"], callback_data="lang")
-            btn2 = InlineKeyboardButton(settings_data["button_row1_right"], callback_data="notif")
-            markup.row(btn1, btn2)
-
-            # Row 2
-            big_btn = InlineKeyboardButton(settings_data["button_row2_center"], callback_data="advanced")
-            markup.row(big_btn)
-
-            # Row 3
-            btn3 = InlineKeyboardButton(settings_data["button_row3_left"], callback_data="help")
-            btn4 = InlineKeyboardButton(settings_data["button_row3_right"], callback_data="about")
-            markup.row(btn3, btn4)
-
-            self.instance.send_message(
-                message.chat.id,
-                settings_data.get("text", "⚙️ Settings"),
+            self.instance.edit_message_text(
+                chat_id=chat_id,
+                message_id=message_id,
+                text=updateTextWith,
                 reply_markup=markup
             )
-            return True, None
-
         except Exception as e:
-            return False, str(e)
+            print(f"⚠️ Failed to update message {message_id} for user {user_id}: {e}")

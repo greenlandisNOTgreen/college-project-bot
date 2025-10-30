@@ -26,15 +26,28 @@ def responseToCommands(message:tl.Message):
       # NOT ONEEE.
     print(spl)
     if spl[0] == '/start':
-        success, result = Messages.startMessage(message)
-        if not success:
-            log.error(result)
+        Messages.updateMessage(
+            message=message,
+            updateTextWith="Hi! :)",
+            updateMarkupWith=[
+            ]
+        )
     elif spl[0] == '/settings':
-        success, result = Messages.settingsMessage(message)
-        if not success:
-            log.error(result)
-    
-@bot.callback_query_handler(func=lambda call: call.data in {"lang", "notif", "advanced", "help", "about"})
+        Messages.updateMessage(
+            message=message,
+            updateTextWith="Choose an option:",
+            updateMarkupWith=[
+                [
+                    {"ButtonTextKey": "btn_ok", "ButtonCallback": "action_ok"},
+                    {"ButtonTextKey": "btn_cancel", "ButtonCallback": "action_cancel"}
+                ],
+                [
+                    {"ButtonTextKey": "btn_help", "ButtonCallback": "action_help"}
+                ]
+            ]
+        )
+
+@bot.callback_query_handler()
 def responseToCallback(call:call):
     bot.answer_callback_query(call.id)
     print(call.data)

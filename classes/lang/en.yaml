@@ -2,6 +2,11 @@ start_message:
   text: |
     Well hello there :)
 
+btn_ok: 'Okay.'
+btn_cancel: 'No!'
+
+btn_help: 'Attack the D-Point!'
+
 settings_message:
   text: "⚙️ Choose your settings"
   button_row1_left: "Language"
