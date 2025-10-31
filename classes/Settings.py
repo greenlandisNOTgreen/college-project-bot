@@ -22,7 +22,26 @@ class Main():
         with open(SETTINGS, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=4, ensure_ascii=False)
 
-    def createDefaults(self, user_id: int) -> bool:
+    def update(self, user_id: int, updates: Dict[str, Any]):
+        all_data = self._loadSettings()
+        str_id = str(user_id)
+
+        if str_id not in all_data:
+            self.createDefaults(user_id)
+            all_data = self._loadSettings()
+
+        if "preferences" not in all_data[str_id]:
+            all_data[str_id]["preferences"] = {}
+
+        for key, value in updates.items():
+            if key in ["preferredLang", "firstMessageId"]:
+                all_data[str_id][key] = value
+            else:
+                all_data[str_id]["preferences"][key] = value
+
+        self._saveSettings(all_data)
+
+    def createDefaults(self, user_id: int):
         data = self._loadSettings()
         string_id = str(user_id)
 
@@ -30,15 +49,17 @@ class Main():
             return False
 
         default_settings = {
-            "firstMessageId": None, # used for message editing
-            "subSettings": {
-                # might be used later
+            "ltsMessageId": None,
+            "ltsChatId": None,
+            "preferredLang": "en", # used for message editing
+            "preferences": { # settings_obj['id']['preferences']['subsetting name'] OR user_settings['preferences']['subsetting name]
+                "autodeleteTimer" : 30, # for autodeleting small messages, like success/error notifications, idk lol
+                "onboardingStep" : "none"
             }
         }
 
         data[string_id] = default_settings
         self._saveSettings(data)
-        return True
     
     def get_settings(self, user_id: int) -> Optional[Dict[str, Any]]:
         data = self._loadSettings()
@@ -50,7 +71,7 @@ class Main():
 
         return data.get(str(user_id))
 
-    def set_first_message_id(self, user_id: int, message_id: int):
+    def set_first_message_id(self, user_id: int, message_id: int, chat_id: int):
         data = self._loadSettings()
         str_id = str(user_id)
 
@@ -58,5 +79,6 @@ class Main():
             self.createDefaults(user_id)
             data = self._loadSettings()
 
-        data[str_id]["firstMessageId"] = message_id
+        data[str_id]["ltsMessageId"] = message_id
+        data[str_id]["ltsChatId"] = chat_id
         self._saveSettings(data)

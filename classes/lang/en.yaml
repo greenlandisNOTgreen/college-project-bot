@@ -1,16 +1,33 @@
-start_message:
-  text: |
-    Well hello there :)
+onboarding_start: |
+  👋 Welcome! Let's set up your preferences.
 
-btn_ok: 'Okay.'
-btn_cancel: 'No!'
+onboarding_ask_language: |
+  🌍 Please choose your preferred language:
 
-btn_help: 'Attack the D-Point!'
+onboarding_ask_autodelete: |
+  ⏱️ How long should temporary notifications stay visible?
 
-settings_message:
-  text: "⚙️ Choose your settings"
-  button_row1_left: "Language"
-  button_row1_right: "Notifications"
-  button_row2_center: "Advanced Settings"
-  button_row3_left: "Help"
-  button_row3_right: "About"
+onboarding_complete: |
+  ✅ All done! Your settings are saved.
+
+main_menu: |
+  hi! :D
+
+finalizing: "Finalizing the onboarding process... 👀"
+
+btn_help: "hagdhaasjkf"
+
+btn_next: "Next →"
+btn_finish: "Finish"
+
+# Language options (button texts)
+lang_en: "English"
+lang_es: "Español"
+lang_ru: "Russian"
+
+# Auto-delete timer options
+timer_5s: "5 seconds"
+timer_30s: "30 seconds"
+timer_1m: "1 minute"
+timer_5m: "5 minutes"
+timer_10m: "10 minutes"

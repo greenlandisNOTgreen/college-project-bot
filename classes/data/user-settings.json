@@ -1,9 +1,13 @@
 {
-    "242": {
-        "hasTalked": true
-    },
     "7908266402": {
-        "firstMessageId": 119,
-        "subSettings": {}
+        "ltsMessageId": 218,
+        "ltsChatId": 7908266402,
+        "preferredLang": "ru",
+        "preferences": {
+            "autodeleteTimer": "60",
+            "onboardingStep": "done",
+            "telegramLang": "en",
+            "wentThoughOnboarding": true
+        }
     }
 }
