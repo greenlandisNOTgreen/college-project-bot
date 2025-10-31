@@ -1,10 +1,10 @@
 {
     "7908266402": {
-        "ltsMessageId": 218,
+        "ltsMessageId": 226,
         "ltsChatId": 7908266402,
         "preferredLang": "ru",
         "preferences": {
-            "autodeleteTimer": "60",
+            "autodeleteTimer": "5",
             "onboardingStep": "done",
             "telegramLang": "en",
             "wentThoughOnboarding": true

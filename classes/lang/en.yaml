@@ -11,25 +11,48 @@ onboarding_complete: |
   ✅ All done! Your settings are saved.
 
 main_menu: |
-  hi! :D
+  There's no proper message here (yet), sorry.
+
+  Okay, so in general 🤔? The functionality is ready,
+  and I'll rework the messages a little later.
+  `...it's three in the bloody morning after all`
+
+  The main part of the bot can be found using the **buttons below**.
+  `Currently its just settings, sorry but thats all i can do in the middle of the night`
+  And uh, i dont even know. Have fun breaking it or something
+
+  The bot's repository on GitHub: [Link](https://github.com/greenlandisNOTgreen/college-project-bot)
+
+  `To be honest, I used AI once or twice to clean up the code when writing the bot. But, I want to say that the code algorithm itself is original, the AI ​​was only for optimizing (yes, I checked all the changes).`
+  `(I wasn't going to and didn't intend to spend time on clean-up the mess that being my code at 5 AM)`
 
 finalizing: "Finalizing the onboarding process... 👀"
 
-btn_help: "hagdhaasjkf"
+btn_help: "Settings"
 
-btn_next: "Next →"
+btn_back: "Back"
+btn_next: "Next"
 btn_finish: "Finish"
 
-feedbackLang200: "Язык заменён на "
+help_message: |
+  **Settings**
+
+help_lang: |
+  **Settings: Language**
+
+help_autodelete: "Edit autodeletion"
+help_lang_btn: "Change Language"
+
+feedbackLang200: "Changed language to "
 
 # Language options (button texts)
 lang_en: "English"
-lang_es: "Español"
+lang_es: "Español (for fallback test)"
 lang_ru: "Russian"
 
 # Auto-delete timer options
-timer_5s: "5 seconds"
-timer_30s: "30 seconds"
-timer_1m: "1 minute"
-timer_5m: "5 minutes"
+timer_5s: "3 seconds"
+timer_30s: "5 seconds"
+timer_1m: "10 seconds"
+timer_5m: "15 seconds"
 timer_10m: "10 minutes"

@@ -52,12 +52,12 @@ feedbackLang200: "Язык заменён на "
 
 # Language options (button texts)
 lang_en: "Английский"
-lang_es: "Испанский"
+lang_es: "Испанский (для теста)"
 lang_ru: "Русский"
 
 # Auto-delete timer options
-timer_5s: "5 секунд"
-timer_30s: "30 секунд"
-timer_1m: "1 минута"
-timer_5m: "5 минут"
+timer_5s: "3 секунды"
+timer_30s: "5 секунд"
+timer_1m: "10 секунд"
+timer_5m: "15 секунд"
 timer_10m: "10 минут"

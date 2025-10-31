@@ -67,7 +67,7 @@ def handle_start(message: tl.Message):
 
 #region Onboarding Stuff
 
-@bot.callback_query_handler(func=lambda call: call.data.startswith("onb_lang_")) # onboarding process
+@bot.callback_query_handler(func=lambda call: call.data.startswith("141414141")) # onboarding process
 def handle_language_select(call: tl.CallbackQuery):
     bot.answer_callback_query(call.id)
     user_id = call.from_user.id
@@ -86,32 +86,28 @@ def handle_language_select(call: tl.CallbackQuery):
         updateTextWith="onboarding_ask_autodelete",
         updateMarkupWith=[
             [
-                {"ButtonTextKey": "timer_5s", "ButtonCallback": "onb_timer_5"},
-                {"ButtonTextKey": "timer_30s", "ButtonCallback": "onb_timer_30"}
+                {"ButtonTextKey": "timer_5s", "ButtonCallback": "onb_timer_3"},
+                {"ButtonTextKey": "timer_30s", "ButtonCallback": "onb_timer_5"}
             ],
             [
-                {"ButtonTextKey": "timer_1m", "ButtonCallback": "onb_timer_60"},
-                {"ButtonTextKey": "timer_5m", "ButtonCallback": "onb_timer_300"}
-            ],
-            [
-                {"ButtonTextKey": "timer_10m", "ButtonCallback": "onb_timer_600"}
+                {"ButtonTextKey": "timer_1m", "ButtonCallback": "onb_timer_10"},
+                {"ButtonTextKey": "timer_5m", "ButtonCallback": "onb_timer_15"}
             ]
         ]
     )
     return
 
-@bot.callback_query_handler(func=lambda call: call.data.startswith("onb_timer_")) # onboarding process
+@bot.callback_query_handler(func=lambda call: call.data.startswith("onb_lang_")) # onboarding process
 def handle_autodelete_select(call: tl.CallbackQuery):
     bot.answer_callback_query(call.id)
     user_id = call.from_user.id
     chat_id = call.message.chat.id
 
-    timer_val = call.data.split("_", 2)[-1]
+    lang_code = call.data.split("_", 2)[-1]
 
     s.update(user_id, {
-        "autodeleteTimer": timer_val,
-        "wentThoughOnboarding": True,
-        "onboardingStep": ONBOARDING_STEP_DONE
+        "preferredLang": lang_code,
+        "onboardingStep": ONBOARDING_STEP_AUTODELETE
     })
 
     lang_code = s.get_settings(user_id)['preferredLang']
@@ -164,10 +160,8 @@ def handle_settings(call: tl.CallbackQuery):
 
     Messages.updateMessage(user_id,chat_id,"help_message",[
         [
-            {"ButtonTextKey": "help_lang", 
-             "ButtonCallback": "help_lang_change"},  
-            {"ButtonTextKey": "help_autodelete", 
-             "ButtonCallback": "help_auto_change"},  
+            {"ButtonTextKey": "help_lang_btn", 
+             "ButtonCallback": "help_lang_change"}
         ],
         [
             {"ButtonTextKey":"btn_back",
@@ -176,13 +170,25 @@ def handle_settings(call: tl.CallbackQuery):
     ])
     return
 
+@bot.callback_query_handler(func=lambda call:call.data.startswith('back_'))
+def handle_back(call:tl.CallbackQuery):
+    Messages.updateMessage(
+        user_id=call.from_user.id,
+        chat_id=call.message.chat.id,
+        updateTextWith="main_menu",
+        updateMarkupWith=[
+            [{"ButtonTextKey": "btn_help", "ButtonCallback": "settings"}]
+        ]
+    )
+    return
+
 @bot.callback_query_handler(func=lambda call: call.data.startswith('help_'))
 def handle_help(call:tl.CallbackQuery):
     bot.answer_callback_query(call.id)
     data = call.data
 
-    setting = data.split('_')[-1]
-    if setting == 'auto':
+    setting = data.split('_')[1]
+    if setting == 'lang':
         Messages.updateMessage(
             call.from_user.id,
             call.message.chat.id,
@@ -210,14 +216,15 @@ def handle_help(call:tl.CallbackQuery):
         langLang = l.getLanguageFromKey(s.get_settings(call.from_user.id)['preferredLang'],langKey)
 
         langJoined = str(langMessage)+str(langLang)
-
-        feedback = bot.send_message(call.message.chat.id,langJoined)
         s.update(call.from_user.id, {
             "preferredLang": setting
         })
+
+        """feedback = bot.send_message(call.message.chat.id,langJoined)
+        
         time.sleep(int(s.get_settings(call.from_user.id)['preferences']['autodeleteTimer']))
 
-        bot.delete_message(feedback.chat.id,feedback.id)
+        bot.delete_message(feedback.chat.id,feedback.id)"""
 
     return
 
