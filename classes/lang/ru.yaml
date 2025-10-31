@@ -48,7 +48,7 @@ help_lang: |
 help_autodelete: "Настроить удаление"
 help_lang: "Сменить язык"
 
-feedbackLang200: "Язык заменён на {formatting} "
+feedbackLang200: "Язык заменён на "
 
 # Language options (button texts)
 lang_en: "Английский"

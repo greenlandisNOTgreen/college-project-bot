@@ -20,6 +20,8 @@ btn_help: "hagdhaasjkf"
 btn_next: "Next →"
 btn_finish: "Finish"
 
+feedbackLang200: "Язык заменён на "
+
 # Language options (button texts)
 lang_en: "English"
 lang_es: "Español"

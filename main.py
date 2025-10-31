@@ -1,7 +1,7 @@
 # type: ignore
 from telebot import types as tl
 from telebot.types import CallbackQuery as call
-import telebot, os, time
+import telebot, os, time, asyncio
 from dotenv import load_dotenv
 from classes.Language import Language
 from classes.Settings import Main as Settings
@@ -203,8 +203,21 @@ def handle_help(call:tl.CallbackQuery):
             ]
         )
 
+
     if setting in ['en','es','ru']:
-        feedback = bot.send_message(call.message.chat.id,l.getLanguageFromKey(s.get_settings(call.from_user.id)['preferredLang'],'feedback'))
+        langKey = "lang_".join(setting)
+        langMessage = l.getLanguageFromKey(s.get_settings(call.from_user.id)['preferredLang'],'feedbackLang200')
+        langLang = l.getLanguageFromKey(s.get_settings(call.from_user.id)['preferredLang'],langKey)
+
+        langJoined = str(langMessage)+str(langLang)
+
+        feedback = bot.send_message(call.message.chat.id,langJoined)
+        s.update(call.from_user.id, {
+            "preferredLang": setting
+        })
+        time.sleep(int(s.get_settings(call.from_user.id)['preferences']['autodeleteTimer']))
+
+        bot.delete_message(feedback.chat.id,feedback.id)
 
     return
 
